@@ -1,36 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { setVisibilityFilter } from '../actions'
+import { NavLink } from 'react-router-dom'
 
-const Link = ({ active, children, onClick }) => {
-  if (active) return <span>{children}</span>
-  return (
-    <a
-      href="filter"
-      onClick={e => {
-        e.preventDefault()
-        onClick()
-      }}
-    >
-      {children}
-    </a>
-  )
-}
-
-const mapStateToLinkProps = ({ visibilityFilter }, { filter }) => ({
-  active: visibilityFilter === filter
-})
-const mapDispatchToLinkProps = (dispatch, { filter }) => ({
-  onClick() {
-    dispatch(setVisibilityFilter(filter))
-  }
-})
-const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link)
+const FilterLink = ({ filter, children }) => (
+  <NavLink
+    to={filter === 'all' ? '' : filter}
+    activeStyle={{ textDecoration: 'none', color: 'black' }}
+  >
+    {children}
+  </NavLink>
+)
 
 export const Footer = () => (
   <p>
-    Show: <FilterLink filter="SHOW_ALL">All</FilterLink>
-    , <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>
-    , <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
+    Show: <FilterLink filter="/all">All</FilterLink>
+    , <FilterLink filter="/active">Active</FilterLink>
+    , <FilterLink filter="/completed">Completed</FilterLink>
   </p>
 )

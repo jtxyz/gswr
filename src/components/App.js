@@ -4,7 +4,7 @@ import { AddTodo } from './AddTodo'
 import { VisibleTodoList } from './TodoList'
 import { Footer } from './Footer'
 
-const TodoApp = () => (
+const App = () => (
   <Fragment>
     <AddTodo />
     <VisibleTodoList />
@@ -12,4 +12,4 @@ const TodoApp = () => (
   </Fragment>
 )
 
-export default TodoApp
+export default App

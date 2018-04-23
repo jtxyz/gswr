@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleTodo } from '../actions'
+import { withRouter } from 'react-router-dom'
 
 const Todo = ({ completed, text, onClick }) => (
   <li
@@ -16,18 +17,18 @@ const Todo = ({ completed, text, onClick }) => (
 const TodoList = ({ todos, onTodoClick }) => (
   <ul>
     {todos.map(todo => (
-      <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />
+      <Todo key={todo.id} onClick={() => onTodoClick(todo.id)} {...todo} />
     ))}
   </ul>
 )
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
-    case 'SHOW_ALL':
+    case 'all':
       return todos
-    case 'SHOW_ACTIVE':
+    case 'completed':
       return todos.filter(todo => !todo.completed)
-    case 'SHOW_COMPLETED':
+    case 'active':
       return todos.filter(todo => todo.completed)
     default:
       return todos
@@ -36,26 +37,25 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends Component {
   render() {
-    const { todos, visibilityFilter, onTodoClick } = this.props
-
+    const { todos, filter, onTodoClick } = this.props
     return (
       <TodoList
-        todos={getVisibleTodos(todos, visibilityFilter)}
+        todos={getVisibleTodos(todos, filter)}
         onTodoClick={onTodoClick}
       />
     )
   }
 }
 
-const mapStateToProps = ({ todos, visibilityFilter }) => ({
-  todos,
-  visibilityFilter
-})
-const mapDispatchToProps = dispatch => ({
-  onTodoClick(id) {
-    dispatch(toggleTodo(id))
-  }
+/**
+ * @type {function({todos: object[]}, any): void}
+ */
+const mapStateToProps = ({ todos }, { match: { params } }) => ({
+  filter: params.filter,
+  todos
 })
 
-const wrapped = connect(mapStateToProps, mapDispatchToProps)(VisibleTodoList)
+const wrapped = withRouter(
+  connect(mapStateToProps, { onTodoClick: toggleTodo })(VisibleTodoList)
+)
 export { wrapped as VisibleTodoList }

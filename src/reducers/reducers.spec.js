@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze'
 import expect from 'expect'
-
-import { todos, todoApp, visibilityFilter } from './reducers'
+import todos from './todos'
+import { todoApp } from '.'
 
 const testAddTodo = () => {
   const stateBefore = []
@@ -60,8 +60,7 @@ const testApp = () => {
   expect(todoApp(stateBefore, action)).toEqual(stateAfter)
 
   const fromScratch = combineReducersFromScratch({
-    todos,
-    visibilityFilter
+    todos
   })
 
   expect(fromScratch(stateBefore, action)).toEqual(stateAfter)

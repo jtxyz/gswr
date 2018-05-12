@@ -52,7 +52,7 @@ class VisibleTodoList extends Component {
 const mapStateToProps = (state, { match: { params } }) => {
   const filter = params.filter || 'all'
   return {
-    todos: getVisibleTodos(state, params.filter),
+    todos: getVisibleTodos(state, filter),
     filter
   }
 }

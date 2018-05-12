@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
-import { todoApp } from './reducers'
+import todos from './reducers'
 import promise from 'redux-promise'
 import logger from 'redux-logger'
 
@@ -10,7 +10,7 @@ const configureStore = () => {
     middlewares.push(logger)
   }
 
-  return createStore(todoApp, applyMiddleware(...middlewares))
+  return createStore(todos, applyMiddleware(...middlewares))
 }
 
 export default configureStore
